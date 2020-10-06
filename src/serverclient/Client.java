@@ -7,6 +7,7 @@ package serverclient;
 
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import minesweeper.*;
@@ -53,7 +54,6 @@ public class Client extends Thread {
     @Override
     public void run() {
         try {
-            //demineur.getGUI().createLog();
             output.writeUTF(playerName);
             playerID = input.readInt();
             demineur.getGUI().disableButtons();
@@ -67,11 +67,11 @@ public class Client extends Thread {
                     case "start":
                         replaying = false;
                         started = true;
-                        String difficulty = arrayInstruction[1];
-                        demineur.getActualChamp().createChamp(getLevelParam(Niveau.Level.valueOf(difficulty))[0],
-                                getLevelParam(Niveau.Level.valueOf(difficulty))[1],
-                                getLevelParam(Niveau.Level.valueOf(difficulty))[2]);
-                        demineur.getGUI().createGrid();
+//                        String difficulty = arrayInstruction[1];
+//                        demineur.getActualChamp().createChamp(getLevelParam(Niveau.Level.valueOf(difficulty))[0],
+//                                getLevelParam(Niveau.Level.valueOf(difficulty))[1],
+//                                getLevelParam(Niveau.Level.valueOf(difficulty))[2]);
+//                        demineur.getGUI().createGrid();
                         break;
                     case "eliminated":
                         String playerName = arrayInstruction[1];
@@ -79,6 +79,7 @@ public class Client extends Thread {
                         y = Integer.parseInt(arrayInstruction[3]);
                         playerScore = arrayInstruction[4];
                         playerID = Integer.parseInt(arrayInstruction[5]);
+                        demineur.getGUI().getTabCases()[x][y].clientRepaint(true, 0);
                         if (playerID == demineur.getClient().getPlayerID()) {
                             if (JOptionPane.showConfirmDialog(
                                     null,

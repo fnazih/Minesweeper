@@ -89,6 +89,7 @@ public class GUIServer extends JFrame implements ActionListener {
             gameHasStarted = true;
             launch.setText("Pause game");
             stop.setEnabled(true);
+            portText.setEnabled(false);
             server.stopSockerServer();
             explainText.append("The game is about to start. No more clients accepted, " + server.getClientList().size() +  " clients connected\n");
         }
