@@ -1,13 +1,18 @@
-/*
-    @author : Fatima-Zohra NAZIH
-    @title : Deminer
+ /**
+ *   @author : Fatima-Zohra NAZIH
+ *  @title : MineSweeper
  */
+
+package minesweeper;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import serverclient.*;
+import tools.*;
 
 //This class represents the Graphical User Interface. It creates every panel that are going to be displayed,
 //and deals with the user's actions (clicks...)
@@ -20,7 +25,7 @@ public class GUI extends JPanel implements ActionListener {
     public JLabel score;
     private JPanel bottomPanel;
 
-    //Menu variables
+    //Menu parameters
     private final static JMenuBar menuBar = new JMenuBar();
     private final static JMenu menu = new JMenu("Options");
     private final static JMenuItem instructions = new JMenuItem("Instructions");
@@ -31,17 +36,21 @@ public class GUI extends JPanel implements ActionListener {
     private final static JMenuItem hardLevel = new JMenuItem("HARD");
     private final static JMenuItem customLevel = new JMenuItem("CUSTOM");
 
+    //serverclient.Client parameters
+    private JLabel ipAddLabel = new JLabel("IP Address : ");
+    private JTextField ipAddText = new JTextField();
+    private JLabel portLabel = new JLabel("Port : ");
+    private JTextField portText = new JTextField();
+    private JButton playButt = new JButton("Play !");
+    private JLabel playerr = new JLabel("Player : ");
+    private String playerpseudo = "";
+
     //Default constructor : creates every panel and initializes them
     public GUI(Demineur newDemineur) {
         super(new BorderLayout());
 
         demineur = newDemineur;
         counter = new Counter();
-
-        String name = JOptionPane.showInputDialog(null,
-                "Welcome to the Deminer ! What is your name ?",
-                "Deminer",
-                JOptionPane.QUESTION_MESSAGE );
 
         demineur.getActualChamp().createChamp(Champ.easyLevel[0],
                 Champ.easyLevel[1],
@@ -51,9 +60,15 @@ public class GUI extends JPanel implements ActionListener {
         createMenu();
         gridContainer = new JPanel();
 
-        JPanel topPanel = createTopPanel(name);
+        playerpseudo = JOptionPane.showInputDialog(null,
+                "Welcome to the Minesweeper ! What is your name ?",
+                "Welcome !",
+                JOptionPane.PLAIN_MESSAGE);
+
+        playerr.setText("Player : " + playerpseudo);
         JPanel middlePanel = createMiddlePanel();
         bottomPanel = createBottomPanel();
+        JPanel topPanel = createTopPanel(playerpseudo);
 
         add(topPanel, BorderLayout.NORTH);
         add(middlePanel, BorderLayout.CENTER);
@@ -88,7 +103,6 @@ public class GUI extends JPanel implements ActionListener {
         JPanel topPanel = new JPanel();
 
         JLabel title = new JLabel("Démineur");
-        JLabel playerr = new JLabel("Player : " + name);
         JLabel level = new JLabel("Level : " + demineur.getActualChamp().getLevel());
 
         topPanel.add(title);
@@ -101,7 +115,7 @@ public class GUI extends JPanel implements ActionListener {
     }
 
     //This function creates the interface grid
-    private void createGrid() {
+    public void createGrid() {
         GridLayout layout = new GridLayout(demineur.getActualChamp().dimX, demineur.getActualChamp().dimY);
 
         layout.setHgap(2);
@@ -189,6 +203,8 @@ public class GUI extends JPanel implements ActionListener {
     private JPanel createBottomPanel() {
         JPanel bottomPanel = new JPanel();
 
+        bottomPanel.setLayout(new GridLayout(2, 4));
+
         int nbMinesTotal = 0;
 
         switch (demineur.getActualChamp().getLevel()) {
@@ -198,15 +214,22 @@ public class GUI extends JPanel implements ActionListener {
             case CUSTOM -> nbMinesTotal = Niveau.customNbMines;
         }
 
+        bottomPanel.add(ipAddLabel);
+        bottomPanel.add(ipAddText);
+        bottomPanel.add(portLabel);
+        bottomPanel.add(portText);
+
         minesRestantes = new JLabel("Mines left : " + nbMinesTotal);
         bottomPanel.add(minesRestantes);
-
         bottomPanel.add(counter);
+
 
         score = new JLabel();
         score.setText("Score : " + tabCases[0][0].getScore());
 
         bottomPanel.add(score);
+
+        bottomPanel.add(playButt);
 
         return bottomPanel;
     }
@@ -230,17 +253,39 @@ public class GUI extends JPanel implements ActionListener {
                 System.exit(0);
             }
         }
-        if(easyLevel.equals(source)) {
+        else if(easyLevel.equals(source)) {
             reset(Niveau.Level.EASY);
         }
-        if(mediumLevel.equals(source)) {
+        else if(mediumLevel.equals(source)) {
             reset(Niveau.Level.MEDIUM);
         }
-        if(hardLevel.equals(source)) {
+        else if(hardLevel.equals(source)) {
             reset(Niveau.Level.HARD);
         }
-        if(customLevel.equals(source)) {
+        else if(customLevel.equals(source)) {
             reset(Niveau.Level.CUSTOM);
         }
+        else if(playButt.equals(source)) {
+            demineur.setClient(new Client(ipAddText.getText(), portText.getText(), getPlayerName().getText(), demineur));
+        }
     }
+
+    public JLabel getPlayerName() { return playerr; }
+
+    public void disableButtons() {
+        ipAddText.setEnabled(false);
+        portText.setEnabled(false);
+        playButt.setEnabled(false);
+    }
+
+    public void disableOnlineDisplay() {
+        //pseudo.setEnabled(true);
+        portText.setEnabled(true);
+        ipAddText.setEnabled(true);
+        playButt.setEnabled(true);
+    }
+
+    public Cases[][] getTabCases() { return tabCases; }
+
+    public String getPlayerpseudo() { return playerpseudo; }
 }

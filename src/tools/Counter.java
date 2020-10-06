@@ -1,4 +1,4 @@
-/*
+package tools;/*
     @author : Fatima-Zohra NAZIH
     @title : Deminer
  */
@@ -13,20 +13,19 @@ public class Counter extends JPanel implements Runnable {
     private final static int widthCounter = 100;
     private final static int heightCounter = 30;
 
-    Counter() {
+    public Counter() {
         started = false;
         counter = 0;
         processScores = new Thread(this);
         repaint();
     }
 
-    void start() {
+    public void start() {
         if (!started) {
             processScores.start();
             started = true;
         }
     }
-
 
     @Override
     public void run() {
@@ -55,7 +54,7 @@ public class Counter extends JPanel implements Runnable {
 
     public boolean hasStarted() { return started; }
 
-    void resetCount() {
+    public void resetCount() {
         stopCount();
         counter = 0;
         started = false;

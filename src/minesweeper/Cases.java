@@ -1,16 +1,23 @@
-/*
-    @author : Fatima-Zohra NAZIH
-    @title : Deminer
+ /**
+ *   @author : Fatima-Zohra NAZIH
+ *  @title : MineSweeper
  */
+
+package minesweeper;
+
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Stack;
 import static java.lang.Integer.*;
+import tools.*;
 
-//This class represents one displayed cell on the field and implements the MouseListener in order to change according
-//to the user's actions (left-click, right-click...)
+/*
+This class represents one displayed cell on the field and implements the MouseListener
+ in order to change according to the user's actions (left-click, right-click...)
+ */
+
 public class Cases extends JPanel implements MouseListener {
     private static Demineur demineur;
     private boolean content; //indicates whether there is a mine (true) or not (false)
@@ -121,10 +128,10 @@ public class Cases extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         //starts counting if first click
-        if(!counter.hasStarted()) { counter.start(); }
 
         if(getContent()) {  //if the case contains a mine
             if(SwingUtilities.isLeftMouseButton(e)) {
+                if(!counter.hasStarted()) { counter.start(); }
                 situation = REVEALED;
                 repaint();
 
@@ -137,6 +144,7 @@ public class Cases extends JPanel implements MouseListener {
                 } else { System.exit(0); }
             }
             else if(SwingUtilities.isRightMouseButton(e)) {     //if you want to flag it
+                if(!counter.hasStarted()) { counter.start(); }
                 if(this.getSituation() != FLAGGED) {
                     this.situation = FLAGGED;
                     nbMinesFound++;     //one more mine flagged
@@ -144,6 +152,7 @@ public class Cases extends JPanel implements MouseListener {
                     repaint();
                 }
                 else if(this.getSituation() == FLAGGED) {     //if you want to reset the right click
+                    if(!counter.hasStarted()) { counter.start(); }
                     this.situation = HIDDEN;
                     nbMinesFound--;
                     repaint();
@@ -152,6 +161,7 @@ public class Cases extends JPanel implements MouseListener {
         }
         else if(!getContent()) {    //if no mine
             if(SwingUtilities.isLeftMouseButton(e)) {
+                if(!counter.hasStarted()) { counter.start(); }
                 setSituation(REVEALED);
                 score++;    //another revealed safe case
                 checkNeighbours();
@@ -159,10 +169,12 @@ public class Cases extends JPanel implements MouseListener {
             }
             else if(SwingUtilities.isRightMouseButton(e)) {
                 if(this.getSituation() != FLAGGED) {
+                    if(!counter.hasStarted()) { counter.start(); }
                     this.situation = FLAGGED;
                     repaint();
                 }
                 else if(this.getSituation() == FLAGGED) {
+                    if(!counter.hasStarted()) { counter.start(); }
                     this.situation = HIDDEN;
                     repaint();
                 }
@@ -170,7 +182,8 @@ public class Cases extends JPanel implements MouseListener {
         }
     }
 
-    //This function is called when a case is clicked. It checks its direct neighbours and theirs and reveals the empty cases around
+    //This function is called when a case is clicked.
+    // It checks its direct neighbours and theirs and reveals the empty cases around
     private void checkNeighbours() {
 
         Stack<Cases> fileNeighbours = new Stack<>();
@@ -200,6 +213,12 @@ public class Cases extends JPanel implements MouseListener {
                 }
             }
         }
+    }
+
+    public void clientRepaint(boolean isMine, int nbMines) {
+        setSituation(REVEALED);
+        setText();
+        repaint();
     }
 
     //This function is not used

@@ -1,7 +1,9 @@
-/*
-    @author : Fatima-Zohra NAZIH
-    @title : Deminer
+/**
+ *   @author : Fatima-Zohra NAZIH
+ *  @title : MineSweeper
  */
+
+package tools;
 
 //This is a class regrouping the enum of level possibilities as well as the custom level default parameters
 public class Niveau {

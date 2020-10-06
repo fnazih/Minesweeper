@@ -1,20 +1,26 @@
-/*
-    @author : Fatima-Zohra NAZIH
-    @title : Deminer
+ /**
+ *   @author : Fatima-Zohra NAZIH
+ *  @title : MineSweeper
  */
+
+package minesweeper;
+
 
 import javax.swing.*;
 import java.awt.*;
+import serverclient.*;
+import tools.*;
 
 //This class represents the full interface JFrame, it regroups all of the game parameters and displays them
 public class Demineur extends JFrame {
     private final Champ actualChamp;  //current game field variable
     private final GUI gui;        //graphical user interface variable
+    private Client client;
 
     //This function returns the current field created
     public Champ getActualChamp() { return actualChamp; }
 
-    //Default constructor : creates the field, the GUI and sets the tab size
+    //Default constructor : creates the field, the minesweeper.GUI and sets the tab size
     public Demineur() {
         super("Deminer");  //calls the JFrame constructor with the "Deminer" label
         actualChamp = new Champ();  //creation of the default level field : EASY
@@ -48,6 +54,10 @@ public class Demineur extends JFrame {
 
     public GUI getGUI() { return gui; }
 
-    //The main function only calls the Demineur's constructor; everything gets created after that
+    //The main function only calls the minesweeper.Demineur's constructor; everything gets created after that
     public static void main(String[] args) { new Demineur(); }
+
+    public void setClient(Client newClient) { this.client = newClient; }
+
+    public Client getClient() { return client; }
 }

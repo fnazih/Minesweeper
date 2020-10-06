@@ -1,11 +1,14 @@
-/*
-    @author : Fatima-Zohra NAZIH
-    @title : Deminer
+/**
+ *   @author : Fatima-Zohra NAZIH
+ *  @title : MineSweeper
  */
 
-import java.util.*;
+package minesweeper;
 
+
+import java.util.*;
 import static java.lang.Integer.*;
+import tools.*;
 
 //This class represents the field regardless to the interface. It places mines randomly, and displays the field on the console
 public class Champ {
@@ -18,8 +21,8 @@ public class Champ {
     public final static int[] hardLevel = {16, 16, 60}; //Parameters of the hard level
     private final Random aleaGenerator = new Random(); //random integers generator
 
-    //Default constructor of the Champ class : EASY level
-    public Champ() {    //default constructor of class Champ : level EASY
+    //Default constructor of the minesweeper.Champ class : EASY level
+    public Champ() {    //default constructor of class minesweeper.Champ : level EASY
         createChamp(easyLevel[0], easyLevel[1], easyLevel[2]);
     }
 
@@ -115,4 +118,6 @@ public class Champ {
             return Niveau.Level.CUSTOM;
         }
     }
+
+    public boolean[][] getChamp() { return champ; }
 }
