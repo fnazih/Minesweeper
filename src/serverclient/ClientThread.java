@@ -39,9 +39,26 @@ public class ClientThread extends Thread implements Runnable {
     public void run() {
         try {
             while ((this != null)) {
-
+                String instruction = in.readUTF();
+                String[] arrayInstructions = instruction.split("\\s+");
+                switch (arrayInstructions[0]) {
+                    case "click" :
+                        int x = Integer.parseInt(arrayInstructions[1]);
+                        int y = Integer.parseInt(arrayInstructions[2]);
+                        if(!server.getClicked()[x][y] && !disabled) {
+                            boolean isMine = server.getChamp().getChamp()[x][y];
+                            if(!isMine) {
+                                personalScore++;
+                            }
+                            else {
+                                setDisabled(true);
+                            }
+                            server.getClicked()[x][y] = true;
+                            server.forceCellRepaint(x, y, this, isMine);
+                        }
+                }
             }
-        } catch (NullPointerException ignored) {
+            } catch (NullPointerException | IOException ignored) {
         }
     }
 
@@ -76,4 +93,6 @@ public class ClientThread extends Thread implements Runnable {
     }
 
     public DataOutputStream getOutput() { return out; }
+
+    public int getScore() { return overallScore; }
 }

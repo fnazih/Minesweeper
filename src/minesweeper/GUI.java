@@ -229,6 +229,7 @@ public class GUI extends JPanel implements ActionListener {
 
         bottomPanel.add(score);
 
+        playButt.addActionListener(this);
         bottomPanel.add(playButt);
 
         return bottomPanel;

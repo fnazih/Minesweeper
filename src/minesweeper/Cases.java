@@ -148,6 +148,7 @@ public class Cases extends JPanel implements MouseListener {
                 if(this.getSituation() != FLAGGED) {
                     this.situation = FLAGGED;
                     nbMinesFound++;     //one more mine flagged
+                    score++;    //another mine found : increases score
                     demineur.getGUI().recalculNbMinesFound();
                     repaint();
                 }

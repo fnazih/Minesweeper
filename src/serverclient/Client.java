@@ -7,7 +7,6 @@ package serverclient;
 
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import minesweeper.*;
@@ -54,8 +53,8 @@ public class Client extends Thread {
     @Override
     public void run() {
         try {
-            output.writeUTF(playerName);
-            playerID = input.readInt();
+            output.writeUTF(getPlayerName());   //first message sent : player name
+            playerID = input.readInt();     //first message received : the player ID
             demineur.getGUI().disableButtons();
 
             while (this != null) {
@@ -67,11 +66,11 @@ public class Client extends Thread {
                     case "start":
                         replaying = false;
                         started = true;
-//                        String difficulty = arrayInstruction[1];
-//                        demineur.getActualChamp().createChamp(getLevelParam(Niveau.Level.valueOf(difficulty))[0],
-//                                getLevelParam(Niveau.Level.valueOf(difficulty))[1],
-//                                getLevelParam(Niveau.Level.valueOf(difficulty))[2]);
-//                        demineur.getGUI().createGrid();
+                        String difficulty = arrayInstruction[1];
+                        demineur.getActualChamp().createChamp(getLevelParam(Niveau.Level.valueOf(difficulty))[0],
+                                getLevelParam(Niveau.Level.valueOf(difficulty))[1],
+                                getLevelParam(Niveau.Level.valueOf(difficulty))[2]);
+                        demineur.getGUI().createGrid();
                         break;
                     case "eliminated":
                         String playerName = arrayInstruction[1];
