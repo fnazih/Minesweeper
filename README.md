@@ -7,6 +7,12 @@ A pop up tab appears, asking for your name. Your can enter your name, and then p
 
 ### How to start
 The default game level is EASY, an 8x8 cell grid. You can change level in the menu bar, by clicking the "Change level" menu and then choosing a new level.
+To play online (with a local server + multiple clients), you need to use two configurations on your IDE :
+  - The "Server" configuration where the main class is serverclient.GUIServer
+  - The "Client" configuration where the main class is minesweeper.Demineur
+
+To run the app as a server, run the "Server" configuration on your IDE, and choose the listening port in the opened panel. You will see your server IP address in the panel.
+To run the app as a client and play the game, run the "Client" configuration. A pop-up tab asks for your name, and then the principal panel pops up. You will need to enter the server IP address and the connecting port (available in the server panel). You can then press the "Join" button and start playing.
 
 ### How to play
 Left-click a cell to reveal it.
